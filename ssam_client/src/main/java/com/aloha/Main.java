@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -24,7 +25,9 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Main"));
         stage.setScene(scene);
-        stage.setTitle("JavaFX with Socket Client");
+        stage.setTitle("알클쌤");
+        Image icon = new Image("icon.png");
+		stage.getIcons().add(icon);
         stage.show();
 
         // 클라이언트 소켓 쓰레드 실행

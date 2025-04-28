@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -26,6 +27,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Main"));
+        stage.setTitle("알클쌤 Server");
+        Image icon = new Image("icon.png");
+		stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
 
@@ -88,10 +92,14 @@ class ClientHandler implements Runnable {
             while ((clientMessage = input.readLine()) != null) {  // 클라이언트가 종료할 때까지 메시지 받기
                 System.out.println("클라이언트로부터 받은 메시지: " + clientMessage);
 
-                if (clientMessage.equals("call")) {
+                if (clientMessage.contains("#")) {
+                    // # 제거
+                    clientMessage = clientMessage.replace("#", "");
+                    String audioName = clientMessage;
+                    System.out.println("오디오 파일 재생: " + audioName);
                     Platform.runLater(() -> {
                         try {
-                            String audio = "ssam.mp3";
+                            String audio = audioName + ".mp3";
                             Media media = new Media(getClass().getResource(audio).toExternalForm());
                             MediaPlayer mediaPlayer = new MediaPlayer(media);
                             mediaPlayer.play();
