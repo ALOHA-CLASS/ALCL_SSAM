@@ -3,8 +3,6 @@ package com.aloha.service;
 import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -22,7 +20,6 @@ public class JsonService {
       json.put("msg", msg);
       json.put("name", "이준영");
       json.put("date", now);
-
       System.out.println(json);
     } catch (Exception e) {
         e.printStackTrace();

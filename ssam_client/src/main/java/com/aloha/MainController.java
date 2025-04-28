@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
-
-import org.json.JSONObject;
 
 import com.aloha.service.JsonService;
 
@@ -35,10 +32,8 @@ public class MainController {
             // 서버와 데이터 송수신을 위한 스트림 설정
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
-
-
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println("서버와의 연결 실패");
         }
     }
 
@@ -51,18 +46,16 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println("연결 종료 시 에러");
         }
     }
+
+    
     // 사운드
     @FXML
     void call(ActionEvent event) {
         output.println(JsonService.createJson("선생님", "sound"));
     }
-
-    // 서버로부터 응답 받기
-    // String serverResponse = input.readLine();
-    // System.out.println("서버로부터 받은 응답: " + serverResponse);
 
     @FXML
     void ask(ActionEvent event) {

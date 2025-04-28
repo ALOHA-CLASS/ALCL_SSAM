@@ -9,10 +9,13 @@ import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * JavaFX App
@@ -21,19 +24,40 @@ public class Main extends Application {
 
     private static Scene scene;
 
+    // 창 위치
+    private double x = 0;
+    private double y = 0;
+
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Main"));
+        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("알클쌤");
         Image icon = new Image("icon.png");
 		stage.getIcons().add(icon);
-        stage.show();
+        // 화면 배경 투명
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
 
-        // 클라이언트 소켓 쓰레드 실행
-        // ClientSocketThread clientThread = new ClientSocketThread("192.168.30.11", 8080);
-        // clientThread.setDaemon(true); // JavaFX 종료 시 자동 종료
-        // clientThread.start();
+        // 클릭 이벤트 : 클릭 위치 동기화
+        root.setOnMousePressed( event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
+            root.setCursor(Cursor.OPEN_HAND);
+        });
+        // 투명창 드래그
+        root.setOnMouseDragged( event -> {
+            stage.setX( event.getScreenX() - x );
+            stage.setY( event.getScreenY() - y );
+            root.setCursor(Cursor.CLOSED_HAND);
+        });
+        // 커서 초기화
+        root.setOnMouseReleased(event -> {
+            root.setCursor(Cursor.DEFAULT);
+        });
+
+        stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {

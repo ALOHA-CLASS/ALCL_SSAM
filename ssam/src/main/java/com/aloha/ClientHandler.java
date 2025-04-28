@@ -56,7 +56,7 @@ class ClientHandler implements Runnable {
                     System.err.println("JSON 파싱 오류: " + e.getMessage());
                 }
 
-                // !
+                // sound : 선생님, 질문있어요, 도와주세요
                 if (type.equals("sound")) {
                     // # 제거
                     String audioName = msg;
@@ -67,7 +67,6 @@ class ClientHandler implements Runnable {
                             Media media = new Media(getClass().getResource(audio).toExternalForm());
                             MediaPlayer mediaPlayer = new MediaPlayer(media);
                             mediaPlayer.play();
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -213,9 +212,6 @@ class ClientHandler implements Runnable {
                             break;
                     }
                 }
-
-
-
 
                 // 클라이언트에게 응답 보내기
                 output.println("서버로부터의 응답: " + clientMessage);

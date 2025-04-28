@@ -9,10 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * JavaFX App
@@ -28,11 +31,13 @@ public class Main extends Application {
         put("miss", 0);
     }};
 
-
-
     public static int easyCount = 0;
     public static int hardCount = 0;
     public static int missCount = 0;
+
+    // 창 위치
+    private double x = 0;
+    private double y = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -44,6 +49,28 @@ public class Main extends Application {
         Image icon = new Image("icon.png");
 		stage.getIcons().add(icon);
         stage.setScene(scene);
+
+        // 화면 배경 투명
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+
+        // 클릭 이벤트 : 클릭 위치 동기화
+        root.setOnMousePressed( event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
+            root.setCursor(Cursor.OPEN_HAND);
+        });
+        // 투명창 드래그
+        root.setOnMouseDragged( event -> {
+            stage.setX( event.getScreenX() - x );
+            stage.setY( event.getScreenY() - y );
+            root.setCursor(Cursor.CLOSED_HAND);
+        });
+        // 커서 초기화
+        root.setOnMouseReleased(event -> {
+            root.setCursor(Cursor.DEFAULT);
+        });
+
         stage.show();
 
         // 서버를 백그라운드에서 실행하기 위한 스레드
