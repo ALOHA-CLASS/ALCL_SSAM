@@ -1,20 +1,17 @@
 package com.aloha;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -22,11 +19,27 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private static Scene scene;
+    public static Scene scene;
+    public static MainController mainController;
+    public static Map<String, String> actionMap = new ConcurrentHashMap<>();
+    public static Map<String, Integer> countMap = new ConcurrentHashMap<>() {{
+        put("easy", 0);
+        put("hard", 0);
+        put("miss", 0);
+    }};
+
+
+
+    public static int easyCount = 0;
+    public static int hardCount = 0;
+    public static int missCount = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Main"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
+        Parent root = fxmlLoader.load();
+        mainController = fxmlLoader.getController();
+        scene = new Scene(root);
         stage.setTitle("알클쌤 Server");
         Image icon = new Image("icon.png");
 		stage.getIcons().add(icon);
@@ -47,6 +60,11 @@ public class Main extends Application {
                 // 클라이언트 연결 수락
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("클라이언트가 연결되었습니다.");
+                // 클라이언트의 IP 주소 가져오기
+                InetAddress clientAddress = clientSocket.getInetAddress();
+                String clientIp = clientAddress.getHostAddress();
+                // 클라이언트 IP 출력
+                System.out.println("클라이언트 IP: " + clientIp);
 
                 // 새로운 스레드로 클라이언트와의 데이터 송수신 처리
                 new Thread(new ClientHandler(clientSocket)).start();
@@ -72,61 +90,3 @@ public class Main extends Application {
 
 }
 
-// 클라이언트와의 데이터 송수신을 처리하는 클래스
-class ClientHandler implements Runnable {
-    private Socket clientSocket;
-
-    public ClientHandler(Socket clientSocket) {
-        this.clientSocket = clientSocket;
-    }
-
-    @Override
-    public void run() {
-        try {
-            // 클라이언트와 데이터 송수신을 위한 스트림 설정
-            BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true);
-
-            // 클라이언트로부터 메시지 받기
-            String clientMessage;
-            while ((clientMessage = input.readLine()) != null) {  // 클라이언트가 종료할 때까지 메시지 받기
-                System.out.println("클라이언트로부터 받은 메시지: " + clientMessage);
-
-                if (clientMessage.contains("#")) {
-                    // # 제거
-                    clientMessage = clientMessage.replace("#", "");
-                    String audioName = clientMessage;
-                    System.out.println("오디오 파일 재생: " + audioName);
-                    Platform.runLater(() -> {
-                        try {
-                            String audio = audioName + ".mp3";
-                            Media media = new Media(getClass().getResource(audio).toExternalForm());
-                            MediaPlayer mediaPlayer = new MediaPlayer(media);
-                            mediaPlayer.play();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                // 클라이언트에게 응답 보내기
-                output.println("서버로부터의 응답: " + clientMessage);
-            }
-
-            // 클라이언트가 연결을 종료하면 연결 종료
-            System.out.println("클라이언트 연결 종료.");
-        } catch (IOException e) {
-            System.err.println("클라이언트와의 연결에서 오류 발생: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            // 클라이언트와의 연결 종료 및 자원 정리
-            try {
-                if (clientSocket != null && !clientSocket.isClosed()) {
-                    clientSocket.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-}
