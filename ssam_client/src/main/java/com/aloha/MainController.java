@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
+
+import org.json.JSONObject;
+
+import com.aloha.service.JsonService;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,63 +54,42 @@ public class MainController {
             // TODO: handle exception
         }
     }
-
+    // 사운드
     @FXML
     void call(ActionEvent event) {
-        System.out.println("선생님 버튼 클릭");
-        // 서버에 메시지 보내기
-        output.println("#선생님");
+        output.println(JsonService.createJson("선생님", "sound"));
     }
-        
+
     // 서버로부터 응답 받기
     // String serverResponse = input.readLine();
     // System.out.println("서버로부터 받은 응답: " + serverResponse);
 
     @FXML
     void ask(ActionEvent event) {
-        System.out.println("질문있어요 버튼 클릭");
-        // 서버에 메시지 보내기
-        output.println("#질문있어요");
+        output.println(JsonService.createJson("질문있어요", "sound"));
     }
 
     @FXML
     void easy(ActionEvent event) {
-        // 쉬워요
-        System.out.println("쉬워요 버튼 클릭");
-        // 서버에 메시지 보내기
-        output.println("#쉬워요");
+        output.println(JsonService.createJson("쉬워요", "action"));
     }
 
     @FXML
     void hard(ActionEvent event) {
-        // 어려워요
-        System.out.println("어려워요 버튼 클릭");
-        // 서버에 메시지 보내기
-        output.println("#어려워요");
+        output.println(JsonService.createJson("어려워요", "action"));
     }
 
     @FXML
     void help(ActionEvent event) {
-        // 도와주세요
-        System.out.println("도와주세요 버튼 클릭");
-        // 서버에 메시지 보내기
-        output.println("#도와주세요");
+        output.println(JsonService.createJson("도와주세요", "sound"));
     }
 
     @FXML
     void miss(ActionEvent event) {
-        // 놓쳤어요
-        System.out.println("놓쳤어요 버튼 클릭");
-        // 서버에 메시지 보내기
-        output.println("#놓쳤어요");
+        output.println(JsonService.createJson("놓쳤어요", "action"));
     }
 
-
-    @FXML
-    void air(ActionEvent event) {
-
-    }
-
+    // url
     @FXML
     void alcl(ActionEvent event) {
         String url = "https://xn--pe5b27r.com/";
@@ -116,11 +100,6 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    void cold(ActionEvent event) {
-
     }
 
     @FXML
@@ -145,28 +124,6 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    @FXML
-    void heart(ActionEvent event) {
-
-    }
-
-
-    @FXML
-    void hot(ActionEvent event) {
-
-    }
-
-    @FXML
-    void like(ActionEvent event) {
-
-    }
-
-    @FXML
-    void noise(ActionEvent event) {
-
     }
 
     @FXML
@@ -205,5 +162,60 @@ public class MainController {
         }
     }
 
+    // 투표 메서드
+    @FXML
+    void vote1() {
+        output.println(JsonService.createJson("1", "vote"));
+    }
+    @FXML
+    void vote2() {
+        output.println(JsonService.createJson("2", "vote"));
+    }
+    @FXML
+    void vote3() {
+        output.println(JsonService.createJson("3", "vote"));
+    }
+    @FXML
+    void vote4() {
+        output.println(JsonService.createJson("4", "vote"));
+    }
+    @FXML
+    void vote5() {
+        output.println(JsonService.createJson("5", "vote"));
+    }
+    @FXML
+    void vote6() {
+        output.println(JsonService.createJson("6", "vote"));
+    }
 
+    // 리액션
+    @FXML
+    void heart(ActionEvent event) {
+        output.println(JsonService.createJson("하트", "reaction"));
+    }
+
+    @FXML
+    void hot(ActionEvent event) {
+        output.println(JsonService.createJson("더워요", "reaction"));
+    }
+
+    @FXML
+    void cold(ActionEvent event) {
+        output.println(JsonService.createJson("추워요", "reaction"));
+    }
+
+    @FXML
+    void like(ActionEvent event) {
+        output.println(JsonService.createJson("좋아요", "reaction"));
+    }
+
+    @FXML
+    void noise(ActionEvent event) {
+        output.println(JsonService.createJson("소음", "reaction"));
+    }
+
+    @FXML
+    void air(ActionEvent event) {
+        output.println(JsonService.createJson("환기", "reaction"));
+    }
 }

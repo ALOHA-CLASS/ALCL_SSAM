@@ -74,32 +74,32 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="37.0" text="3" GridPane.columnIndex="2">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#vote3" prefHeight="28.0" prefWidth="37.0" text="3" GridPane.columnIndex="2">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="37.0" text="1">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#vote1" prefHeight="28.0" prefWidth="37.0" text="1">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="37.0" text="2" GridPane.columnIndex="1">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#vote2" prefHeight="28.0" prefWidth="37.0" text="2" GridPane.columnIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="37.0" text="4" GridPane.rowIndex="1">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#vote4" prefHeight="28.0" prefWidth="37.0" text="4" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="37.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#vote5" prefHeight="28.0" prefWidth="37.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="37.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#vote6" prefHeight="28.0" prefWidth="37.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -122,7 +122,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" onAction="#zoom">
+                        <Button mnemonicParsing="false" onAction="#zoom" prefHeight="30.0" prefWidth="26.0">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -131,7 +131,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1" onAction="#notion">
+                        <Button mnemonicParsing="false" onAction="#notion" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -140,7 +140,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2" onAction="#oopy">
+                        <Button mnemonicParsing="false" onAction="#oopy" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -149,7 +149,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.rowIndex="1" onAction="#gpt">
+                        <Button mnemonicParsing="false" onAction="#gpt" prefHeight="30.0" prefWidth="26.0" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -158,7 +158,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#github">
+                        <Button mnemonicParsing="false" onAction="#github" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -167,7 +167,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#alcl">
+                        <Button mnemonicParsing="false" onAction="#alcl" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -194,7 +194,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" onAction="#hot">
+                        <Button mnemonicParsing="false" onAction="#hot" prefHeight="30.0" prefWidth="26.0">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -203,7 +203,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1" onAction="#cold">
+                        <Button mnemonicParsing="false" onAction="#cold" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -212,7 +212,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2" onAction="#air">
+                        <Button mnemonicParsing="false" onAction="#air" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -221,7 +221,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#like">
+                        <Button mnemonicParsing="false" onAction="#like" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -230,7 +230,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#heart">
+                        <Button mnemonicParsing="false" onAction="#heart" prefHeight="30.0" prefWidth="26.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -239,7 +239,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" GridPane.rowIndex="1" onAction="#noise">
+                        <Button mnemonicParsing="false" onAction="#noise" prefHeight="30.0" prefWidth="26.0" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

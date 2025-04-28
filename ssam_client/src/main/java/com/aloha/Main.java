@@ -65,9 +65,9 @@ class ClientSocketThread extends Thread {
     @Override
     public void run() {
         try (Socket socket = new Socket(serverIp, serverPort);
-             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-             Scanner scanner = new Scanner(System.in)) {
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+            Scanner scanner = new Scanner(System.in)) {
 
             System.out.println("서버에 연결되었습니다.");
 
