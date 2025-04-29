@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,16 +25,31 @@ public class Main extends Application {
 
     public static Scene scene;
     public static MainController mainController;
+    // Action
+    // { ip : msg }
+    // { "192.168.30.10" : "쉬워요" }
     public static Map<String, String> actionMap = new ConcurrentHashMap<>();
-    public static Map<String, Integer> countMap = new ConcurrentHashMap<>() {{
-        put("easy", 0);
-        put("hard", 0);
-        put("miss", 0);
-    }};
+    // 쉬워요 여려워요 놓쳤어요
+    public static AtomicInteger easyCount = new AtomicInteger(0);
+    public static AtomicInteger hardCount = new AtomicInteger(0);
+    public static AtomicInteger missCount = new AtomicInteger(0);
+    // Reaction
+    public static Map<String, String> reactionMap = new ConcurrentHashMap<>();
+    public static AtomicInteger hotCount = new AtomicInteger(0);
+    public static AtomicInteger coldCount = new AtomicInteger(0);
+    public static AtomicInteger airCount = new AtomicInteger(0);
+    public static AtomicInteger noiseCount = new AtomicInteger(0);
+    public static AtomicInteger likeCount = new AtomicInteger(0);
+    public static AtomicInteger heartCount = new AtomicInteger(0);
+    // Vote
+    public static Map<String, String> voteMap = new ConcurrentHashMap<>();
+    public static AtomicInteger vote1Count = new AtomicInteger(0);
+    public static AtomicInteger vote2Count = new AtomicInteger(0);
+    public static AtomicInteger vote3Count = new AtomicInteger(0);
+    public static AtomicInteger vote4Count = new AtomicInteger(0);
+    public static AtomicInteger vote5Count = new AtomicInteger(0);
+    public static AtomicInteger vote6Count = new AtomicInteger(0);
 
-    public static int easyCount = 0;
-    public static int hardCount = 0;
-    public static int missCount = 0;
 
     // 창 위치
     private double x = 0;
@@ -41,7 +57,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
         Parent root = fxmlLoader.load();
         mainController = fxmlLoader.getController();
         scene = new Scene(root);

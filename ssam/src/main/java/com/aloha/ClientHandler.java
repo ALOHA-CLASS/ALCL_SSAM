@@ -58,7 +58,6 @@ class ClientHandler implements Runnable {
 
                 // sound : 선생님, 질문있어요, 도와주세요
                 if (type.equals("sound")) {
-                    // # 제거
                     String audioName = msg;
                     System.out.println("sound: " + audioName);
                     Platform.runLater(() -> {
@@ -75,142 +74,132 @@ class ClientHandler implements Runnable {
 
                 // action : 쉬워요, 어려워요, 놓쳤어요
                 if(type.equals("action")) {
-                    Main.actionMap.put(ip, msg);
-                    msg = Main.actionMap.get(ip);
-
                     System.out.println(Main.actionMap);
 
-                    int localEasyCount = 0;
-                    int localHardCount = 0;
-                    int localMissCount = 0;
-                    Main.easyCount = 0;
-                    Main.hardCount = 0;
-                    Main.missCount = 0;
-                    for (String value : Main.actionMap.values()) {
-                        switch (value) {
-                            case "쉬워요":
-                                // localEasyCount++;
-                                Main.easyCount++;
-                                break;
-                            case "어려워요":
-                                // localHardCount++;
-                                Main.hardCount++;
-                                break;
-                            case "놓쳤어요":
-                                // localMissCount++;
-                                Main.missCount++;
-                                break;
+                    String prev = Main.actionMap.put(ip, msg);
+                    if( prev != null ) {
+                        System.out.println("이전 값: " + prev);
+                        switch (prev) {
+                            case "쉬워요": Main.easyCount.decrementAndGet();    break;
+                            case "어려워요": Main.hardCount.decrementAndGet();    break;
+                            case "놓쳤어요": Main.missCount.decrementAndGet();    break;
                         }
                     }
-                    // Main.easyCount = localEasyCount;
-                    // Main.hardCount = localHardCount;
-                    // Main.missCount = localMissCount;
-
+                    switch (Main.actionMap.get(ip)) {
+                        case "쉬워요": Main.easyCount.incrementAndGet();    break;
+                        case "어려워요": Main.hardCount.incrementAndGet();    break;
+                        case "놓쳤어요": Main.missCount.incrementAndGet();    break;
+                    }
+                    
                     System.out.println("쉬워요: " + Main.easyCount + ", 어려워요: " + Main.hardCount + ", 놓쳤어요: " + Main.missCount);
 
-                    switch (msg) {
-                        case "쉬워요":
-                            Platform.runLater(() -> {
-                                Main.mainController.lb_easy.setText( String.valueOf( Main.easyCount ) );
-                            });
-                            break;
-                        case "어려워요":
-                            Platform.runLater(() -> {
-                                Main.mainController.lb_hard.setText( String.valueOf( Main.hardCount ) );
-                            });
-                            break;
-                        case "놓쳤어요":
-                            Platform.runLater(() -> {
-                                Main.mainController.lb_miss.setText( String.valueOf( Main.missCount ) );
-                            });
-                            break;
-                    }
+                    Platform.runLater(() -> {
+                        // easy
+                        Main.mainController.lb_easy.setText( String.valueOf(Main.easyCount) );
+                        // hard
+                        Main.mainController.lb_hard.setText( String.valueOf(Main.hardCount) );
+                        // miss
+                        Main.mainController.lb_miss.setText( String.valueOf(Main.missCount) );
+                    });
+
+                    String audioName = msg;
+                    System.out.println("sound: " + audioName);
+                    Platform.runLater(() -> {
+                        try {
+                            String audio = audioName + ".mp3";
+                            Media media = new Media(getClass().getResource(audio).toExternalForm());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                
                 }
 
 
                 // reaction : 더워요, 추워요, 환기, 소음, 좋아요, 하트
                 if (type.equals("reaction")) {
-                    switch (msg) {
-                        case "더워요":
-                            Platform.runLater(() -> {
-                                Integer hot = Integer.parseInt( Main.mainController.lb_hot.getText() );
-                                Main.mainController.lb_hot.setText( String.valueOf( hot + 1 ) );
-                            });
-                            break;
-                        case "추워요":
-                            Platform.runLater(() -> {
-                                Integer cold = Integer.parseInt( Main.mainController.lb_cold.getText() );
-                                Main.mainController.lb_cold.setText( String.valueOf( cold + 1 ) );
-                            });
-                            break;
-                        case "환기":
-                            Platform.runLater(() -> {
-                                Integer air = Integer.parseInt( Main.mainController.lb_air.getText() );
-                                Main.mainController.lb_air.setText( String.valueOf( air + 1 ) );
-                            });
-                            break;
-                        case "소음":
-                            Platform.runLater(() -> {
-                                Integer noise = Integer.parseInt( Main.mainController.lb_noise.getText() );
-                                Main.mainController.lb_noise.setText( String.valueOf( noise + 1 ) );
-                            });
-                            break;
-                        case "좋아요":
-                            Platform.runLater(() -> {
-                                Integer like = Integer.parseInt( Main.mainController.lb_like.getText() );
-                                Main.mainController.lb_like.setText( String.valueOf( like + 1 ) );
-                            });
-                            break;
-                        case "하트":
-                            Platform.runLater(() -> {
-                                Integer heart = Integer.parseInt( Main.mainController.lb_heart.getText() );
-                                Main.mainController.lb_heart.setText( String.valueOf( heart + 1 ) );
-                            });
-                            break;
+
+                    System.out.println(Main.reactionMap);
+
+                    String prev = Main.reactionMap.put(ip, msg);
+                    if( prev != null ) {
+                        System.out.println("이전 값: " + prev);
+                        switch (prev) {
+                            case "더워요": Main.hotCount.decrementAndGet();    break;
+                            case "추워요": Main.coldCount.decrementAndGet();    break;
+                            case "환기"  : Main.airCount.decrementAndGet();    break;
+                            case "소음"  : Main.noiseCount.decrementAndGet();    break;
+                            case "좋아요": Main.likeCount.decrementAndGet();    break;
+                            case "하트"  : Main.heartCount.decrementAndGet();    break;
+                        }
+                    }
+                    switch (Main.reactionMap.get(ip)) {
+                        case "더워요": Main.hotCount.incrementAndGet();    break;
+                        case "추워요": Main.coldCount.incrementAndGet();    break;
+                        case "환기"  : Main.airCount.incrementAndGet();    break;
+                        case "소음"  : Main.noiseCount.incrementAndGet();    break;
+                        case "좋아요": Main.likeCount.incrementAndGet();    break;
+                        case "하트"  : Main.heartCount.incrementAndGet();    break;
                     }
                     
+                    System.out.println("더워요: " + Main.hotCount + ", 추워요: " + Main.coldCount + ", 환기: " + Main.airCount + ", 소음: " + Main.noiseCount + ", 좋아요: " + Main.likeCount + ", 하트: " + Main.heartCount);
+
+                    Platform.runLater(() -> {
+                        // hot
+                        Main.mainController.lb_hot.setText( String.valueOf(Main.hotCount) );
+                        // cold
+                        Main.mainController.lb_cold.setText( String.valueOf(Main.coldCount) );
+                        // air
+                        Main.mainController.lb_air.setText( String.valueOf(Main.airCount) );
+                        // noise
+                        Main.mainController.lb_noise.setText( String.valueOf(Main.noiseCount) );
+                        // like
+                        Main.mainController.lb_like.setText( String.valueOf(Main.likeCount) );
+                        // heart
+                        Main.mainController.lb_heart.setText( String.valueOf(Main.heartCount) );
+                    });
+
                 }
 
                 // vote : 1 2 3 4 5 6 
                 if (type.equals("vote")) {
-                    switch (msg) {
-                        case "1":
-                            Platform.runLater(() -> {
-                                Integer vote1 = Integer.parseInt( Main.mainController.lb_vote1.getText() );
-                                Main.mainController.lb_vote1.setText( String.valueOf( vote1 + 1 ) );
-                            });
-                            break;
-                        case "2":
-                            Platform.runLater(() -> {
-                                Integer vote2 = Integer.parseInt( Main.mainController.lb_vote2.getText() );
-                                Main.mainController.lb_vote2.setText( String.valueOf( vote2 + 1 ) );
-                            });
-                            break;
-                        case "3":
-                            Platform.runLater(() -> {
-                                Integer vote3 = Integer.parseInt( Main.mainController.lb_vote3.getText() );
-                                Main.mainController.lb_vote3.setText( String.valueOf( vote3 + 1 ) );
-                            });
-                            break;
-                        case "4":
-                            Platform.runLater(() -> {
-                                Integer vote4 = Integer.parseInt( Main.mainController.lb_vote4.getText() );
-                                Main.mainController.lb_vote4.setText( String.valueOf( vote4 + 1 ) );
-                            });
-                            break;
-                        case "5":
-                            Platform.runLater(() -> {
-                                Integer vote5 = Integer.parseInt( Main.mainController.lb_vote5.getText() );
-                                Main.mainController.lb_vote5.setText( String.valueOf( vote5 + 1 ) );
-                            });
-                            break;
-                        case "6":
-                            Platform.runLater(() -> {
-                                Integer vote6 = Integer.parseInt( Main.mainController.lb_vote6.getText() );
-                                Main.mainController.lb_vote6.setText( String.valueOf( vote6 + 1 ) );
-                            });
-                            break;
+
+                    System.out.println(Main.voteMap);
+
+                    String prev = Main.voteMap.put(ip, msg);
+                    if( prev != null ) {
+                        System.out.println("이전 값: " + prev);
+                        switch (prev) {
+                            case "1": Main.vote1Count.decrementAndGet();    break;
+                            case "2": Main.vote2Count.decrementAndGet();    break;
+                            case "3": Main.vote3Count.decrementAndGet();    break;
+                            case "4": Main.vote4Count.decrementAndGet();    break;
+                            case "5": Main.vote5Count.decrementAndGet();    break;
+                            case "6": Main.vote6Count.decrementAndGet();    break;
+                        }
                     }
+                    switch (Main.voteMap.get(ip)) {
+                        case "1": Main.vote1Count.incrementAndGet();    break;
+                        case "2": Main.vote2Count.incrementAndGet();    break;
+                        case "3": Main.vote3Count.incrementAndGet();    break;
+                        case "4": Main.vote4Count.incrementAndGet();    break;
+                        case "5": Main.vote5Count.incrementAndGet();    break;
+                        case "6": Main.vote6Count.incrementAndGet();    break;
+                    }
+                    
+                    System.out.println("vote1: " + Main.vote1Count + ", vote2: " + Main.vote2Count + ", vote3: " + Main.vote3Count + ", vote4: " + Main.vote4Count + ", vote5: " + Main.vote5Count + ", vote6: " + Main.vote6Count);
+
+                    Platform.runLater(() -> {
+                        Main.mainController.lb_vote1.setText( String.valueOf(Main.vote1Count) );
+                        Main.mainController.lb_vote2.setText( String.valueOf(Main.vote2Count) );
+                        Main.mainController.lb_vote3.setText( String.valueOf(Main.vote3Count) );
+                        Main.mainController.lb_vote4.setText( String.valueOf(Main.vote4Count) );
+                        Main.mainController.lb_vote5.setText( String.valueOf(Main.vote5Count) );
+                        Main.mainController.lb_vote6.setText( String.valueOf(Main.vote6Count) );
+                    });
+
                 }
 
                 // 클라이언트에게 응답 보내기

@@ -1,5 +1,8 @@
 package com.aloha;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -64,9 +67,11 @@ public class MainController {
         lb_hard.setText("0");
         lb_miss.setText("0");
 
-        Main.easyCount = 0;
-        Main.hardCount = 0;
-        Main.missCount = 0;
+        Main.easyCount = new AtomicInteger(0);
+        Main.hardCount = new AtomicInteger(0);
+        Main.missCount = new AtomicInteger(0);
+
+        Main.actionMap = new ConcurrentHashMap<>();
     }
 
     // 
@@ -77,6 +82,15 @@ public class MainController {
         lb_noise.setText("0");
         lb_like.setText("0");
         lb_heart.setText("0");
+
+        Main.hotCount = new AtomicInteger(0);
+        Main.coldCount = new AtomicInteger(0);
+        Main.airCount = new AtomicInteger(0);
+        Main.noiseCount = new AtomicInteger(0);
+        Main.likeCount = new AtomicInteger(0);
+        Main.heartCount = new AtomicInteger(0);
+
+        Main.reactionMap = new ConcurrentHashMap<>();
     }
 
     // 
@@ -87,6 +101,15 @@ public class MainController {
         lb_vote4.setText("0");
         lb_vote5.setText("0");
         lb_vote6.setText("0");
+
+        Main.vote1Count = new AtomicInteger(0);
+        Main.vote2Count = new AtomicInteger(0);
+        Main.vote3Count = new AtomicInteger(0);
+        Main.vote4Count = new AtomicInteger(0);
+        Main.vote5Count = new AtomicInteger(0);
+        Main.vote6Count = new AtomicInteger(0);
+
+        Main.voteMap = new ConcurrentHashMap<>();
     }
 
 

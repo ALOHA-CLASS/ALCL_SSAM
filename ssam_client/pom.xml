@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aloha</groupId>            <!-- 조직ID -->
-    <artifactId>ssam_clent</artifactId>           <!-- 프로젝트ID -->
+    <artifactId>ssam_client</artifactId>           <!-- 프로젝트ID -->
     <version>0.0.1</version>                <!-- 프로젝트 버전 -->
     <!-- 속성 -->
     <properties>
