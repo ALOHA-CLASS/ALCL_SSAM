@@ -1,3 +1,5 @@
+*.exe
+
 .vscode
 **/.vscode
 # Compiled class file
