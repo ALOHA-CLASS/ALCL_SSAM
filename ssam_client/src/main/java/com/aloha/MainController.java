@@ -25,8 +25,8 @@ public class MainController {
 
     void conenct() {
         try {
-            // 서버에 연결 (localhost:8080)
-            socket = new Socket("192.168.30.11", 8080);
+            // 서버에 연결 (localhost:8888)
+            socket = new Socket("192.168.30.11", 8888);
             System.out.println("서버에 연결되었습니다.");
 
             // 서버와 데이터 송수신을 위한 스트림 설정

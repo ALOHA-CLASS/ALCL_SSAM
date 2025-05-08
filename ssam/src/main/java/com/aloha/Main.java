@@ -95,8 +95,8 @@ public class Main extends Application {
 
     private void startServer() {
         try {
-            // 8080 포트에서 클라이언트 연결 대기
-            ServerSocket serverSocket = new ServerSocket(8080);
+            // 8888 포트에서 클라이언트 연결 대기
+            ServerSocket serverSocket = new ServerSocket(8888);
             System.out.println("서버가 시작되었습니다. 클라이언트를 기다리는 중...");
 
             while (true) {  // 연결을 계속 유지하도록 무한 루프 사용
