@@ -6,6 +6,6 @@ set FX_LIB=lib\javafx-sdk-23.0.2\lib
 REM JavaFX 애플리케이션 실행
 start java --module-path "%FX_LIB%" ^
      --add-modules javafx.controls,javafx.fxml,javafx.media ^
-     -jar App2.jar
+     -jar App.jar
 
 exit

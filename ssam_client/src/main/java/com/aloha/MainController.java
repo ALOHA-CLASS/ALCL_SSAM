@@ -6,13 +6,32 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URI;
+import java.util.prefs.Preferences;
 
 import com.aloha.service.JsonService;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainController {
+
+    private static final String PREF_KEY_IP = "server_ip";
+    private static final String DEFAULT_IP = "192.168.0.0";
+    private static final int PORT = 8888;
+
+    private final Preferences prefs = Preferences.userNodeForPackage(MainController.class);
 
     Socket socket;
     BufferedReader input;
@@ -20,34 +39,86 @@ public class MainController {
 
     @FXML
     void initialize() {
-        conenct();
+        connect();
     }
 
-    void conenct() {
+    void connect() {
+        String ip = prefs.get(PREF_KEY_IP, DEFAULT_IP);
         try {
-            // 서버에 연결 (localhost:8888)
-            socket = new Socket("192.168.30.11", 8888);
-            System.out.println("서버에 연결되었습니다.");
-
-            // 서버와 데이터 송수신을 위한 스트림 설정
+            socket = new Socket(ip, PORT);
+            System.out.println("서버에 연결되었습니다. (" + ip + ")");
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
         } catch (Exception e) {
-            System.err.println("서버와의 연결 실패");
+            System.err.println("서버와의 연결 실패: " + ip);
         }
     }
 
     void close() {
         try {
-            // 연결 종료
-            input.close();
-            output.close();
-            socket.close();
+            if (input != null) input.close();
+            if (output != null) output.close();
+            if (socket != null) socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             System.err.println("연결 종료 시 에러");
         }
+    }
+
+    @FXML
+    void openSettings(ActionEvent event) {
+        String currentIp = prefs.get(PREF_KEY_IP, DEFAULT_IP);
+
+        Stage settingsStage = new Stage();
+        settingsStage.initModality(Modality.APPLICATION_MODAL);
+        settingsStage.initStyle(StageStyle.TRANSPARENT);
+        settingsStage.setTitle("서버 IP 설정");
+
+        Label titleLabel = new Label("서버 IP 주소 설정");
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+
+        Label ipLabel = new Label("IP:");
+        ipLabel.setStyle("-fx-text-fill: white;");
+
+        TextField ipField = new TextField(currentIp);
+        ipField.setPrefWidth(180);
+        ipField.setStyle("-fx-background-color: rgba(255,255,255,0.15); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.5); -fx-border-color: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        ipField.setPromptText("예: 192.168.0.1");
+
+        HBox ipRow = new HBox(8, ipLabel, ipField);
+        ipRow.setAlignment(Pos.CENTER_LEFT);
+
+        Button saveBtn = new Button("저장 후 재연결");
+        saveBtn.setStyle("-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 5px;");
+        saveBtn.setDefaultButton(true);
+        saveBtn.setOnAction(e -> {
+            String newIp = ipField.getText().trim();
+            if (!newIp.isEmpty()) {
+                prefs.put(PREF_KEY_IP, newIp);
+                close();
+                connect();
+            }
+            settingsStage.close();
+        });
+
+        Button cancelBtn = new Button("취소");
+        cancelBtn.setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 5px;");
+        cancelBtn.setCancelButton(true);
+        cancelBtn.setOnAction(e -> settingsStage.close());
+
+        HBox btnRow = new HBox(8, saveBtn, cancelBtn);
+        btnRow.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox root = new VBox(12, titleLabel, ipRow, btnRow);
+        root.setPadding(new Insets(16));
+        root.setAlignment(Pos.CENTER_LEFT);
+        root.setStyle("-fx-background-color: rgba(20,20,20,0.92); -fx-border-color: rgba(255,255,255,0.6); -fx-border-width: 1px; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        settingsStage.setScene(scene);
+        settingsStage.showAndWait();
     }
 
     
@@ -145,7 +216,7 @@ public class MainController {
 
     @FXML
     void zoom(ActionEvent event) {
-        String url = "https://us02web.zoom.us/j/85670468377?pwd=aNbUqoGbiDUumTlTmJyxbbRzqOxBzO.1";
+        String url = "https://us02web.zoom.us/j/82055043371?pwd=SPvxcKITteQrtwtelZab3ZIDMUF0bZ.1";
         try {
             URI uri = new URI(url);
             java.awt.Desktop.getDesktop().browse(uri);
